@@ -1,66 +1,89 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 
-namespace Dice_Game
+namespace StringsApp
 {
     class Program
     {
+        public static TextInfo CurrentTextInfo { get; set; }
+
+        private static void StringConversion()
+        {
+            string testString = "this is the FBI";
+            CurrentTextInfo = CultureInfo.CurrentCulture.TextInfo;
+            string result;
+
+            result = testString.ToLower();
+            Console.WriteLine(result);
+
+            result = testString.ToUpper();
+            Console.WriteLine(result);
+
+            result = CurrentTextInfo.ToTitleCase(testString);
+            Console.WriteLine(result);
+
+
+        }
         static void Main(string[] args)
         {
-            int playerRandom;
-            int enemyRandom;
-
-            int playerPoints = 0;
-            int enemyPoints = 0;
-
-            Random random = new Random();
-
-            for (int i = 0; i < 10; i++) //the int i = 0 = initialiser section; the i < 10 = the conditional section, the i++ =iterator section
+            //StringConversion();
+            //StringAsArray();
+            //InterpolationAndLiteral();
+            //StringBuilding();
+            WorkingWithArrays();
+        }
+        private static void StringAsArray()
+        {
+            string testString = "Timothy";
+            for (int i = 0; i < testString.Length; i++)
             {
-                Console.WriteLine("Press any key to roll the dice. ");
-
-                Console.ReadKey();
-
-                playerRandom = random.Next(1, 7); //the next helps to create a lower-bound of 1
-                Console.WriteLine("You rolled a " + playerRandom); //and a higher bound of 7. the range falls between 1 to 6
-
-                Console.WriteLine("...");
-                System.Threading.Thread.Sleep(1000); // waiting for 1000 min secs equivalent to 1 secs before ds
-
-
-                enemyRandom = random.Next(1, 7);
-                Console.WriteLine("Enemy AI rolled a " + enemyRandom);
-
-                if (playerRandom > enemyRandom)
-                {
-                    playerPoints++;
-                    Console.WriteLine("Player wins this round!");
-
-                }
-                else if (playerRandom < enemyRandom)
-                {
-                    enemyPoints++;
-                    Console.WriteLine("Enemy wins this round!");
-                }
-                else
-                {
-                    Console.WriteLine("Draw!");
-                }
-                Console.WriteLine("The score is now - Player: " + playerPoints + ". Enemy : " + enemyPoints + ".");
-                Console.WriteLine();
+                Console.WriteLine(testString);
             }
-            if (playerPoints > enemyPoints)
+        }
+        private static void InterpolationAndLiteral()
+        {
+            string testString = "Tim Corey";
+            string result = $@"c:\Demo\{testString}\.text";
+
+            Console.WriteLine(result);
+        }
+        private static void StringBuilding()
+        {
+            //string testString = "Text";
+            //testString = "Tim";
+
+            //testString += " is a cool guy";
+            //Console.WriteLine(testString);
+
+            Stopwatch regularStopWatch = new Stopwatch();
+            regularStopWatch.Start();
+
+            string test = " ";
+
+            for (int i = 0; i < 1000000; i++)
             {
-                Console.WriteLine("You Win!");
+                test += i;
             }
-            else if(playerPoints < enemyPoints)
-            {
-                Console.WriteLine("You Lose!");
-            }
-            else
-            {
-                Console.WriteLine("It is a draw");
-            }
-            Console.ReadKey();
-        }   
+
+            regularStopWatch.Stop();
+            Console.WriteLine($"RegularStopWatch: {regularStopWatch.ElapsedMilliseconds} ms");
+        }
+        private static void WorkingWithArrays()
+        {
+            int[] ages = new int[] { 2, 4, 6, 8, 10 };
+            string results;
+
+            results = String.Concat(ages);
+            Console.WriteLine(results);
+
+            results = String.Join(",", ages);
+            Console.WriteLine(results);
+
+            string testString = "John,Tim,Joy,Greaat";
+            string[] resultsArray = testString.Split(',');
+            Array.ForEach(resultsArray, x => Console.WriteLine(x));
+        }
     }
+
 }
